@@ -1,0 +1,4 @@
+node_modules
+# dist (included so user can directly deploy built HTML files)
+.env
+.env.local
