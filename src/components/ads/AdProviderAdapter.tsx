@@ -102,44 +102,7 @@ export default function AdProviderAdapter({ placementId, config }: AdProviderAda
     );
   }
 
-  // 2. Monetag Provider Slot
-  if (ADS_CONFIG.provider === 'monetag') {
-    return (
-      <div
-        ref={containerRef}
-        id={`monetag-zone-${config.monetagZoneId || placementId}`}
-        data-monetag-zone={config.monetagZoneId}
-        className="w-full flex justify-center items-center min-h-[90px]"
-      >
-        {/* Monetag banner / zone container */}
-      </div>
-    );
-  }
-
-  // 3. Ezoic Provider Slot (uses Ezoic placeholder standard format)
-  if (ADS_CONFIG.provider === 'ezoic') {
-    return (
-      <div
-        ref={containerRef}
-        id={`ezoic-pub-ad-placeholder-${config.ezoicPlaceholderId || 100}`}
-        data-ezoic-placeholder={config.ezoicPlaceholderId}
-        className="w-full flex justify-center items-center"
-      />
-    );
-  }
-
-  // 4. Mediavine Provider Slot
-  if (ADS_CONFIG.provider === 'mediavine') {
-    return (
-      <div
-        ref={containerRef}
-        className="mediavine-ad-container w-full flex justify-center items-center"
-        data-mediavine-slot={placementId}
-      />
-    );
-  }
-
-  // 5. Default Clean Reserved Ad Area (Shows reserved slot until ad code is inserted)
+  // Render clean reserved in-page banner slot in designated area
   return (
     <div
       ref={containerRef}
@@ -160,12 +123,19 @@ export default function AdProviderAdapter({ placementId, config }: AdProviderAda
       </div>
 
       <p className="text-[11px] text-slate-300 max-w-md leading-relaxed">
-        Ad Slot: <code className="text-cyan-400 font-mono font-bold bg-slate-900 px-1.5 py-0.5 rounded border border-slate-700">{placementId}</code>
+        Banner Slot: <code className="text-cyan-400 font-mono font-bold bg-slate-900 px-1.5 py-0.5 rounded border border-slate-700">{placementId}</code>
       </p>
 
       <span className="text-[10px] text-slate-400 mt-1 font-mono">
-        (Paste code in <span className="text-emerald-400">adsConfig.ts</span> under '{placementId}')
+        (In-Page Banner Slot • Zone: <span className="text-emerald-400">{config.monetagZoneId || '12040443'}</span>)
       </span>
+
+      {/* Embedded in-page banner container */}
+      <div
+        id={`monetag-zone-${config.monetagZoneId || placementId}`}
+        data-monetag-zone={config.monetagZoneId || '12040443'}
+        className="w-full flex justify-center items-center mt-2"
+      />
     </div>
   );
 }

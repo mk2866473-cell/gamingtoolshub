@@ -335,7 +335,7 @@ export default function ToolDetailPage({ tool, onNavigate }: ToolDetailPageProps
             <div>
               {renderToolComponent()}
 
-              {/* Placement 2: Calculator Results Ad Container */}
+              {/* Placement 2: Calculator Results Ad Banner */}
               <AdLayout.Results />
             </div>
 
@@ -494,13 +494,13 @@ export default function ToolDetailPage({ tool, onNavigate }: ToolDetailPageProps
                 </div>
               </div>
 
-              {/* Placement 3: Desktop Sidebar Ad Column (Positioned BELOW Tool Overview) */}
+              {/* Placement 3: Desktop Sidebar Ad Banner (Positioned BELOW Tool Overview) */}
               <AdLayout.Sidebar />
             </div>
           </aside>
         </div>
 
-        {/* Placement 4: Content Bottom Banner (Full width directly before Related Tools) */}
+        {/* Placement 4: Content Bottom Banner Ad (Directly before Related Tools) */}
         <AdLayout.Content />
 
         {/* Related Tools */}

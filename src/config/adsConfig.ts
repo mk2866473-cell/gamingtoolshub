@@ -122,7 +122,7 @@ export const ADS_CONFIG: SiteAdsConfig = {
   // 4. DISALLOWED ROUTES (Privacy, terms, and disclaimer are ad-free for policy compliance)
   disallowedRoutes: ['/privacy', '/terms', '/disclaimer'],
 
-  // 5. INDIVIDUAL PLACEMENT DEFINITIONS - Configured with Monetag Zone 12040443
+  // 5. INDIVIDUAL IN-PAGE PLACEMENT DEFINITIONS - Enabled for in-page banners
   placements: {
     'header-banner': {
       enabled: true,
@@ -130,7 +130,7 @@ export const ADS_CONFIG: SiteAdsConfig = {
       name: 'Header Banner',
       dimensions: '728 × 90 / 970 × 90',
       mobileDimensions: '320 × 50 / 300 × 50',
-      description: 'Horizontal banner below main navigation with clean top/bottom margins.',
+      description: 'Horizontal banner below main navigation with clean margins.',
       minHeight: 'min-h-[90px]',
       monetagZoneId: '12040443',
       ezoicPlaceholderId: 101,
@@ -142,7 +142,7 @@ export const ADS_CONFIG: SiteAdsConfig = {
       name: 'Calculator Results Banner',
       dimensions: '728 × 90 / 336 × 280',
       mobileDimensions: '300 × 250',
-      description: 'Positioned safely below calculator results, separated from input fields and calculate buttons.',
+      description: 'Positioned safely below calculator results, separated from calculation buttons.',
       minHeight: 'min-h-[100px]',
       monetagZoneId: '12040443',
       ezoicPlaceholderId: 102,
@@ -173,7 +173,7 @@ export const ADS_CONFIG: SiteAdsConfig = {
       customHtml: "<script>(function(s){s.dataset.zone='12040443',s.src='https://nap5k.com/tag.min.js'})([document.documentElement, document.body].filter(Boolean).pop().appendChild(document.createElement('script')))</script>",
     },
     'mobile-anchor': {
-      enabled: false, // Optional sticky bottom on mobile devices
+      enabled: false,
       id: 'mobile-anchor',
       name: 'Mobile Anchor Banner',
       dimensions: '320 × 50 / 300 × 50',
