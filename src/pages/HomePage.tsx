@@ -13,6 +13,7 @@ import { TOOLS, GAMES, CATEGORIES, ToolItem, getGamePath } from '../data/gamesAn
 import ToolCard from '../components/ToolCard';
 import SEOHead from '../components/SEOHead';
 import { PokeballIcon, PalSphereIcon } from '../components/GameIcons';
+import AdLayout from '../components/ads/AdLayout';
 
 interface HomePageProps {
   onNavigate: (path: string) => void;
@@ -664,6 +665,11 @@ export default function HomePage({ onNavigate, onOpenSearch }: HomePageProps) {
               );
             })}
           </div>
+        </section>
+
+        {/* 10. HOMEPAGE BOTTOM AD BANNER */}
+        <section aria-label="Advertisement" className="max-w-4xl mx-auto pt-2 pb-6">
+          <AdLayout.Content />
         </section>
       </div>
     </>

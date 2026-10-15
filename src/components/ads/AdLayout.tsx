@@ -58,7 +58,7 @@ export const AdLayout = {
     if (!isPlacementEnabled('desktop-sidebar')) return null;
 
     return (
-      <div className={`lg:sticky lg:top-24 space-y-4 ${className}`}>
+      <div className={`space-y-4 ${className}`}>
         <AdSlot placement="desktop-sidebar" />
       </div>
     );

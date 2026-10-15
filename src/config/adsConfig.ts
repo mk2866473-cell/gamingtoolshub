@@ -110,11 +110,11 @@ export interface SiteAdsConfig {
 }
 
 export const ADS_CONFIG: SiteAdsConfig = {
-  // 1. MASTER TOGGLE - Disabled completely
-  enabled: false,
+  // 1. MASTER TOGGLE - Enabled to display ad slots across the website
+  enabled: true,
 
-  // 2. ACTIVE PROVIDER ('none')
-  provider: 'none',
+  // 2. ACTIVE PROVIDER ('monetag')
+  provider: 'monetag',
 
   // 3. IAB DISCLOSURE LABEL
   disclosureLabel: 'ADVERTISEMENT',
@@ -122,76 +122,75 @@ export const ADS_CONFIG: SiteAdsConfig = {
   // 4. DISALLOWED ROUTES (Privacy, terms, and disclaimer are ad-free for policy compliance)
   disallowedRoutes: ['/privacy', '/terms', '/disclaimer'],
 
-  // 5. INDIVIDUAL PLACEMENT DEFINITIONS - All disabled
+  // 5. INDIVIDUAL PLACEMENT DEFINITIONS - Configured with Monetag Zone 12040443
   placements: {
     'header-banner': {
-      enabled: false,
+      enabled: true,
       id: 'header-banner',
       name: 'Header Banner',
       dimensions: '728 × 90 / 970 × 90',
       mobileDimensions: '320 × 50 / 300 × 50',
       description: 'Horizontal banner below main navigation with clean top/bottom margins.',
-      minHeight: 'min-h-0',
-      monetagZoneId: '',
+      minHeight: 'min-h-[90px]',
+      monetagZoneId: '12040443',
       ezoicPlaceholderId: 101,
-      customHtml: '',
+      customHtml: "<script>(function(s){s.dataset.zone='12040443',s.src='https://nap5k.com/tag.min.js'})([document.documentElement, document.body].filter(Boolean).pop().appendChild(document.createElement('script')))</script>",
     },
     'calculator-results': {
-      enabled: false,
+      enabled: true,
       id: 'calculator-results',
       name: 'Calculator Results Banner',
       dimensions: '728 × 90 / 336 × 280',
       mobileDimensions: '300 × 250',
-      description: 'Positioned safely below calculator results.',
-      minHeight: 'min-h-0',
-      monetagZoneId: '',
+      description: 'Positioned safely below calculator results, separated from input fields and calculate buttons.',
+      minHeight: 'min-h-[100px]',
+      monetagZoneId: '12040443',
       ezoicPlaceholderId: 102,
-      customHtml: '',
+      customHtml: "<script>(function(s){s.dataset.zone='12040443',s.src='https://nap5k.com/tag.min.js'})([document.documentElement, document.body].filter(Boolean).pop().appendChild(document.createElement('script')))</script>",
     },
     'desktop-sidebar': {
-      enabled: false,
+      enabled: true,
       id: 'desktop-sidebar',
       name: 'Desktop Sidebar Unit',
       dimensions: '300 × 250 / 300 × 600',
       mobileDimensions: '300 × 250',
-      description: 'Sidebar unit on desktop layouts.',
-      minHeight: 'min-h-0',
-      monetagZoneId: '',
+      description: 'Positioned below the Tool Overview in the right sidebar.',
+      minHeight: 'min-h-[250px]',
+      monetagZoneId: '12040443',
       ezoicPlaceholderId: 103,
-      customHtml: '',
+      customHtml: "<script>(function(s){s.dataset.zone='12040443',s.src='https://nap5k.com/tag.min.js'})([document.documentElement, document.body].filter(Boolean).pop().appendChild(document.createElement('script')))</script>",
     },
     'content-bottom': {
-      enabled: false,
+      enabled: true,
       id: 'content-bottom',
       name: 'Content Bottom Banner',
       dimensions: '728 × 90 / 970 × 250',
       mobileDimensions: '300 × 250 / 320 × 50',
-      description: 'Positioned after guides and FAQs.',
-      minHeight: 'min-h-0',
-      monetagZoneId: '',
+      description: 'Positioned after guides, formulas, and FAQs and before Related Tools.',
+      minHeight: 'min-h-[90px]',
+      monetagZoneId: '12040443',
       ezoicPlaceholderId: 104,
-      customHtml: '',
+      customHtml: "<script>(function(s){s.dataset.zone='12040443',s.src='https://nap5k.com/tag.min.js'})([document.documentElement, document.body].filter(Boolean).pop().appendChild(document.createElement('script')))</script>",
     },
     'mobile-anchor': {
-      enabled: false,
+      enabled: false, // Optional sticky bottom on mobile devices
       id: 'mobile-anchor',
       name: 'Mobile Anchor Banner',
       dimensions: '320 × 50 / 300 × 50',
       mobileDimensions: '320 × 50',
       description: 'Sticky bottom banner on mobile screens only.',
-      minHeight: 'min-h-0',
-      monetagZoneId: '',
+      minHeight: 'min-h-[50px]',
+      monetagZoneId: '12040443',
       ezoicPlaceholderId: 105,
       customHtml: '',
     },
   },
 
   // 6. MONETAG CONFIGURATION ADAPTER
-  // When you obtain your Monetag code, insert your script URL or Zone IDs here.
   monetag: {
-    scriptUrl: '',     // e.g. "//alwingulla.com/88/tag.min.js"
-    siteId: '',        // e.g. "1234567"
-    inPageSnippet: '', // Optional global snippet
+    scriptUrl: 'https://nap5k.com/tag.min.js',
+    siteId: '12040443',
+    inPageSnippet: "<script>(function(s){s.dataset.zone='12040443',s.src='https://nap5k.com/tag.min.js'})([document.documentElement, document.body].filter(Boolean).pop().appendChild(document.createElement('script')))</script>",
   },
 
   // 7. EZOIC CONFIGURATION ADAPTER

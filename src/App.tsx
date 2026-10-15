@@ -26,6 +26,7 @@ import DisclaimerPage from './pages/DisclaimerPage';
 import NotFoundPage from './pages/NotFoundPage';
 
 import { getToolBySlug } from './data/gamesAndTools';
+import AdLayout from './components/ads/AdLayout';
 
 export default function App() {
   // Parse current route from window.location (hash or pathname)
@@ -55,6 +56,17 @@ export default function App() {
       window.removeEventListener('hashchange', handleLocationChange);
     };
   }, []);
+
+  // Track page views in Google Analytics on route change
+  useEffect(() => {
+    if (typeof window !== 'undefined' && (window as any).gtag) {
+      (window as any).gtag('event', 'page_view', {
+        page_path: currentRoute,
+        page_title: document.title,
+        page_location: window.location.href,
+      });
+    }
+  }, [currentRoute]);
 
   // Programmatic navigate function
   const navigate = (path: string) => {
@@ -177,6 +189,9 @@ export default function App() {
           onNavigate={navigate}
           onOpenSearch={() => setIsSearchOpen(true)}
         />
+
+        {/* 1. Header Banner Ad Placement */}
+        <AdLayout.Header currentPath={currentRoute} />
 
         <main className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6 sm:py-8">
           {renderCurrentPage()}
