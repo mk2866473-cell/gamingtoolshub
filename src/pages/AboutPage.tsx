@@ -72,9 +72,9 @@ export default function AboutPage({ onNavigate }: AboutPageProps) {
 
           <div className="bg-zinc-900/60 border border-zinc-800 rounded-xl p-5 space-y-2">
             <Globe className="w-6 h-6 text-purple-400" />
-            <h3 className="text-sm font-bold text-white">Mobile-First UI</h3>
+            <h3 className="text-sm font-bold text-white">Desktop & Mobile Interface</h3>
             <p className="text-xs text-zinc-400 leading-relaxed">
-              Fully optimized for phones and secondary monitors placed next to your battlestation.
+              Fully responsive and optimized for gaming PCs, dual monitors, tablets, and mobile smartphones with zero distortion.
             </p>
           </div>
         </div>

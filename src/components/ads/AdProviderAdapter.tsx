@@ -118,33 +118,6 @@ export default function AdProviderAdapter({ placementId, config }: AdProviderAda
     );
   }
 
-  // 5. Default Clean Reserved Container (Visually shows where the ad appears in the layout)
-  return (
-    <div
-      ref={containerRef}
-      className={`
-        w-full rounded-xl border-2 border-dashed border-cyan-500/30 bg-[#090e1c]/80 hover:border-cyan-400/60 transition-colors
-        flex flex-col items-center justify-center p-4 text-center select-none
-        ${config.minHeight}
-      `}
-    >
-      <div className="flex flex-wrap items-center justify-center gap-2 mb-1.5">
-        <span className="w-2 h-2 rounded-full bg-cyan-400 animate-pulse" />
-        <span className="text-xs sm:text-sm font-bold text-white tracking-wide">
-          {config.name}
-        </span>
-        <span className="text-[10px] font-mono px-2 py-0.5 rounded bg-cyan-950/80 text-cyan-300 border border-cyan-700/50">
-          {config.dimensions}
-        </span>
-      </div>
-
-      <p className="text-[11px] text-slate-300 max-w-md leading-relaxed">
-        Ad Slot ID: <code className="text-cyan-400 font-mono font-bold bg-slate-900 px-1.5 py-0.5 rounded border border-slate-700">{placementId}</code>
-      </p>
-
-      <span className="text-[10px] text-slate-400 mt-1.5 font-mono">
-        💡 Paste code in <span className="text-emerald-400">adsConfig.ts</span> under '{placementId}' OR send code to me in chat!
-      </span>
-    </div>
-  );
+  // 5. When no ad provider/code is configured, render nothing
+  return null;
 }

@@ -13,7 +13,6 @@ import { TOOLS, GAMES, CATEGORIES, ToolItem, getGamePath } from '../data/gamesAn
 import ToolCard from '../components/ToolCard';
 import SEOHead from '../components/SEOHead';
 import { PokeballIcon, PalSphereIcon } from '../components/GameIcons';
-import AdLayout from '../components/ads/AdLayout';
 
 interface HomePageProps {
   onNavigate: (path: string) => void;
@@ -624,9 +623,9 @@ export default function HomePage({ onNavigate, onOpenSearch }: HomePageProps) {
               <div className="w-8 h-8 rounded-lg bg-[#090d16] border border-slate-800 flex items-center justify-center text-cyan-400">
                 <Compass className="w-4 h-4" />
               </div>
-              <h3 className="text-sm font-bold text-white">Second Monitor Ready</h3>
+              <h3 className="text-sm font-bold text-white">Desktop & Mobile Interface</h3>
               <p className="text-xs text-slate-400 leading-relaxed">
-                Responsive layouts designed to snap cleanly on a 2nd monitor, tablet, or phone without breaking UI.
+                Responsive layouts optimized for widescreen desktop monitors, dual battlestation setups, tablets, and mobile smartphones.
               </p>
             </div>
           </div>
@@ -665,13 +664,6 @@ export default function HomePage({ onNavigate, onOpenSearch }: HomePageProps) {
               );
             })}
           </div>
-        </section>
-
-        {/* ========================================================= */}
-        {/* 10. HOMEPAGE BOTTOM AD BANNER                             */}
-        {/* ========================================================= */}
-        <section aria-label="Advertisement" className="max-w-4xl mx-auto pt-2 pb-6">
-          <AdLayout.Content />
         </section>
       </div>
     </>

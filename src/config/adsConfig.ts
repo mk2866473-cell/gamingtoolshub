@@ -110,10 +110,10 @@ export interface SiteAdsConfig {
 }
 
 export const ADS_CONFIG: SiteAdsConfig = {
-  // 1. MASTER TOGGLE - Enabled so you can visually see all ad layout spots on your website
-  enabled: true,
+  // 1. MASTER TOGGLE - Disabled completely
+  enabled: false,
 
-  // 2. ACTIVE PROVIDER ('none' renders clear visual placeholder boxes until you add ad code)
+  // 2. ACTIVE PROVIDER ('none')
   provider: 'none',
 
   // 3. IAB DISCLOSURE LABEL
@@ -122,64 +122,64 @@ export const ADS_CONFIG: SiteAdsConfig = {
   // 4. DISALLOWED ROUTES (Privacy, terms, and disclaimer are ad-free for policy compliance)
   disallowedRoutes: ['/privacy', '/terms', '/disclaimer'],
 
-  // 5. INDIVIDUAL PLACEMENT DEFINITIONS - Enabled so you can see where each ad will be placed
+  // 5. INDIVIDUAL PLACEMENT DEFINITIONS - All disabled
   placements: {
     'header-banner': {
-      enabled: true,
+      enabled: false,
       id: 'header-banner',
       name: 'Header Banner',
       dimensions: '728 × 90 / 970 × 90',
       mobileDimensions: '320 × 50 / 300 × 50',
-      description: 'Horizontal banner below main navigation with clean top/bottom margins. Never mimics nav elements.',
-      minHeight: 'min-h-[90px]',
+      description: 'Horizontal banner below main navigation with clean top/bottom margins.',
+      minHeight: 'min-h-0',
       monetagZoneId: '',
       ezoicPlaceholderId: 101,
-      customHtml: '', // <-- PASTE YOUR HEADER AD CODE HERE
+      customHtml: '',
     },
     'calculator-results': {
-      enabled: true,
+      enabled: false,
       id: 'calculator-results',
       name: 'Calculator Results Banner',
       dimensions: '728 × 90 / 336 × 280',
       mobileDimensions: '300 × 250',
-      description: 'Positioned safely below calculator results, separated from input fields and calculate buttons.',
-      minHeight: 'min-h-[100px]',
+      description: 'Positioned safely below calculator results.',
+      minHeight: 'min-h-0',
       monetagZoneId: '',
       ezoicPlaceholderId: 102,
-      customHtml: '', // <-- PASTE YOUR RESULTS AD CODE HERE
+      customHtml: '',
     },
     'desktop-sidebar': {
-      enabled: true,
+      enabled: false,
       id: 'desktop-sidebar',
       name: 'Desktop Sidebar Unit',
       dimensions: '300 × 250 / 300 × 600',
       mobileDimensions: '300 × 250',
-      description: 'Sidebar skyscraper on desktop layouts. Automatically stacks below calculator on mobile/tablet.',
-      minHeight: 'min-h-[250px] lg:min-h-[600px]',
+      description: 'Sidebar unit on desktop layouts.',
+      minHeight: 'min-h-0',
       monetagZoneId: '',
       ezoicPlaceholderId: 103,
-      customHtml: '', // <-- PASTE YOUR SIDEBAR AD CODE HERE
+      customHtml: '',
     },
     'content-bottom': {
-      enabled: true,
+      enabled: false,
       id: 'content-bottom',
       name: 'Content Bottom Banner',
       dimensions: '728 × 90 / 970 × 250',
       mobileDimensions: '300 × 250 / 320 × 50',
-      description: 'Positioned after guides, formulas, and FAQs and before Related Tools. Does not interrupt instructions.',
-      minHeight: 'min-h-[90px]',
+      description: 'Positioned after guides and FAQs.',
+      minHeight: 'min-h-0',
       monetagZoneId: '',
       ezoicPlaceholderId: 104,
-      customHtml: '', // <-- PASTE YOUR CONTENT AD CODE HERE
+      customHtml: '',
     },
     'mobile-anchor': {
-      enabled: false, // Mobile anchor stays disabled until you want sticky bottom on phone
+      enabled: false,
       id: 'mobile-anchor',
       name: 'Mobile Anchor Banner',
       dimensions: '320 × 50 / 300 × 50',
       mobileDimensions: '320 × 50',
-      description: 'Sticky bottom banner on mobile screens only. Disabled by default, never obstructs calculator controls.',
-      minHeight: 'min-h-[50px]',
+      description: 'Sticky bottom banner on mobile screens only.',
+      minHeight: 'min-h-0',
       monetagZoneId: '',
       ezoicPlaceholderId: 105,
       customHtml: '',

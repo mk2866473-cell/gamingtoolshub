@@ -12,7 +12,6 @@ import { ToolItem, getGameById, getCategoryById, TOOLS, getGamePath } from '../d
 import Breadcrumbs from '../components/Breadcrumbs';
 import SEOHead from '../components/SEOHead';
 import ToolCard from '../components/ToolCard';
-import AdLayout from '../components/ads/AdLayout';
 
 // Tools components
 import MinecraftCircleGenerator from '../components/tools/MinecraftCircleGenerator';
@@ -334,9 +333,6 @@ export default function ToolDetailPage({ tool, onNavigate }: ToolDetailPageProps
             {/* The Interactive Tool Container */}
             <div>
               {renderToolComponent()}
-
-              {/* Placement 2: Calculator Results Ad Container (Disabled by default) */}
-              <AdLayout.Results />
             </div>
 
             {/* Step-by-Step How To Guide */}
@@ -453,13 +449,10 @@ export default function ToolDetailPage({ tool, onNavigate }: ToolDetailPageProps
             )}
           </div>
 
-          {/* Placement 3: Desktop Sidebar Ad Column (4 cols on lg/xl) */}
+          {/* Desktop Sidebar Column (4 cols on lg/xl) */}
           {/* Sits alongside on wide desktop, stacks below main content on smaller screens */}
           <aside className="lg:col-span-4 space-y-6">
             <div className="lg:sticky lg:top-24 space-y-6">
-              {/* Desktop Sidebar Ad (Disabled by default) */}
-              <AdLayout.Sidebar />
-
               {/* Tool Context & Verified Information Card */}
               <div className="bg-[#0e1422] border border-slate-800 rounded-2xl p-5 space-y-4">
                 <div className="flex items-center justify-between pb-3 border-b border-slate-800">
@@ -511,9 +504,6 @@ export default function ToolDetailPage({ tool, onNavigate }: ToolDetailPageProps
             </div>
           </aside>
         </div>
-
-        {/* Placement 4: Content Bottom Banner (Full width directly before Related Tools) */}
-        <AdLayout.Content />
 
         {/* Related Tools */}
         {relatedTools.length > 0 && (
