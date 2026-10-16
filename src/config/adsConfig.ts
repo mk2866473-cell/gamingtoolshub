@@ -26,7 +26,7 @@ export type AdPlacementId =
   | 'content-bottom'
   | 'mobile-anchor';
 
-export type AdProvider = 'none' | 'monetag' | 'ezoic' | 'mediavine' | 'custom';
+export type AdProvider = 'none' | 'monetag' | 'ezoic' | 'mediavine' | 'adsterra' | 'custom';
 
 export interface AdPlacementConfig {
   /** Master toggle for this individual placement */
@@ -113,8 +113,8 @@ export const ADS_CONFIG: SiteAdsConfig = {
   // 1. MASTER TOGGLE - Enabled to display ad slots across the website
   enabled: true,
 
-  // 2. ACTIVE PROVIDER ('monetag')
-  provider: 'monetag',
+  // 2. ACTIVE PROVIDER ('adsterra')
+  provider: 'adsterra',
 
   // 3. IAB DISCLOSURE LABEL
   disclosureLabel: 'ADVERTISEMENT',
@@ -122,75 +122,111 @@ export const ADS_CONFIG: SiteAdsConfig = {
   // 4. DISALLOWED ROUTES (Privacy, terms, and disclaimer are ad-free for policy compliance)
   disallowedRoutes: ['/privacy', '/terms', '/disclaimer'],
 
-  // 5. INDIVIDUAL IN-PAGE PLACEMENT DEFINITIONS - Enabled for in-page banners
+  // 5. INDIVIDUAL IN-PAGE PLACEMENT DEFINITIONS - Configured with Adsterra 728x90 and 300x250 codes
   placements: {
     'header-banner': {
       enabled: true,
       id: 'header-banner',
       name: 'Header Banner',
-      dimensions: '728 × 90 / 970 × 90',
+      dimensions: '728 × 90',
       mobileDimensions: '320 × 50 / 300 × 50',
-      description: 'Horizontal banner below main navigation with clean margins.',
+      description: 'Horizontal banner below main navigation.',
       minHeight: 'min-h-[90px]',
-      monetagZoneId: '12040443',
+      monetagZoneId: '',
       ezoicPlaceholderId: 101,
-      customHtml: "<script>(function(s){s.dataset.zone='12040443',s.src='https://nap5k.com/tag.min.js'})([document.documentElement, document.body].filter(Boolean).pop().appendChild(document.createElement('script')))</script>",
+      customHtml: `<script>
+  atOptions = {
+    'key' : 'e20f7802b1df62108e7bafb1dd32a3b5',
+    'format' : 'iframe',
+    'height' : 90,
+    'width' : 728,
+    'params' : {}
+  };
+</script>
+<script src="https://www.highrevenueformat.com/e20f7802b1df62108e7bafb1dd32a3b5/invoke.js"></script>`,
     },
     'calculator-results': {
       enabled: true,
       id: 'calculator-results',
       name: 'Calculator Results Banner',
-      dimensions: '728 × 90 / 336 × 280',
+      dimensions: '728 × 90',
       mobileDimensions: '300 × 250',
-      description: 'Positioned safely below calculator results, separated from calculation buttons.',
+      description: 'Positioned safely below calculator results.',
       minHeight: 'min-h-[100px]',
-      monetagZoneId: '12040443',
+      monetagZoneId: '',
       ezoicPlaceholderId: 102,
-      customHtml: "<script>(function(s){s.dataset.zone='12040443',s.src='https://nap5k.com/tag.min.js'})([document.documentElement, document.body].filter(Boolean).pop().appendChild(document.createElement('script')))</script>",
+      customHtml: `<script>
+  atOptions = {
+    'key' : 'e20f7802b1df62108e7bafb1dd32a3b5',
+    'format' : 'iframe',
+    'height' : 90,
+    'width' : 728,
+    'params' : {}
+  };
+</script>
+<script src="https://www.highrevenueformat.com/e20f7802b1df62108e7bafb1dd32a3b5/invoke.js"></script>`,
     },
     'desktop-sidebar': {
       enabled: true,
       id: 'desktop-sidebar',
       name: 'Desktop Sidebar Unit',
-      dimensions: '300 × 250 / 300 × 600',
+      dimensions: '300 × 250',
       mobileDimensions: '300 × 250',
       description: 'Positioned below the Tool Overview in the right sidebar.',
       minHeight: 'min-h-[250px]',
-      monetagZoneId: '12040443',
+      monetagZoneId: '',
       ezoicPlaceholderId: 103,
-      customHtml: "<script>(function(s){s.dataset.zone='12040443',s.src='https://nap5k.com/tag.min.js'})([document.documentElement, document.body].filter(Boolean).pop().appendChild(document.createElement('script')))</script>",
+      customHtml: `<script>
+  atOptions = {
+    'key' : '42f8bd9e9814ff95da353115f98de70b',
+    'format' : 'iframe',
+    'height' : 250,
+    'width' : 300,
+    'params' : {}
+  };
+</script>
+<script src="https://www.highrevenueformat.com/42f8bd9e9814ff95da353115f98de70b/invoke.js"></script>`,
     },
     'content-bottom': {
       enabled: true,
       id: 'content-bottom',
       name: 'Content Bottom Banner',
-      dimensions: '728 × 90 / 970 × 250',
+      dimensions: '728 × 90',
       mobileDimensions: '300 × 250 / 320 × 50',
-      description: 'Positioned after guides, formulas, and FAQs and before Related Tools.',
+      description: 'Positioned after guides and FAQs and before Related Tools.',
       minHeight: 'min-h-[90px]',
-      monetagZoneId: '12040443',
+      monetagZoneId: '',
       ezoicPlaceholderId: 104,
-      customHtml: "<script>(function(s){s.dataset.zone='12040443',s.src='https://nap5k.com/tag.min.js'})([document.documentElement, document.body].filter(Boolean).pop().appendChild(document.createElement('script')))</script>",
+      customHtml: `<script>
+  atOptions = {
+    'key' : 'e20f7802b1df62108e7bafb1dd32a3b5',
+    'format' : 'iframe',
+    'height' : 90,
+    'width' : 728,
+    'params' : {}
+  };
+</script>
+<script src="https://www.highrevenueformat.com/e20f7802b1df62108e7bafb1dd32a3b5/invoke.js"></script>`,
     },
     'mobile-anchor': {
       enabled: false,
       id: 'mobile-anchor',
       name: 'Mobile Anchor Banner',
-      dimensions: '320 × 50 / 300 × 50',
+      dimensions: '320 × 50',
       mobileDimensions: '320 × 50',
       description: 'Sticky bottom banner on mobile screens only.',
       minHeight: 'min-h-[50px]',
-      monetagZoneId: '12040443',
+      monetagZoneId: '',
       ezoicPlaceholderId: 105,
       customHtml: '',
     },
   },
 
-  // 6. MONETAG CONFIGURATION ADAPTER
+  // 6. ADSTERRA / MONETAG / EZOIC ADAPTERS
   monetag: {
-    scriptUrl: 'https://nap5k.com/tag.min.js',
-    siteId: '12040443',
-    inPageSnippet: "<script>(function(s){s.dataset.zone='12040443',s.src='https://nap5k.com/tag.min.js'})([document.documentElement, document.body].filter(Boolean).pop().appendChild(document.createElement('script')))</script>",
+    scriptUrl: '',
+    siteId: '',
+    inPageSnippet: '',
   },
 
   // 7. EZOIC CONFIGURATION ADAPTER

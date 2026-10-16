@@ -73,22 +73,25 @@ export default function AdProviderAdapter({ placementId, config }: AdProviderAda
     }
   }, []);
 
-  // Safely execute embedded ad scripts when customHtml is provided
+  // Safely execute embedded and external ad scripts when customHtml is provided
   useEffect(() => {
-    if (!config.customHtml) return;
-    const scriptRegex = /<script\b[^>]*>([\s\S]*?)<\/script>/gm;
-    let match;
-    while ((match = scriptRegex.exec(config.customHtml)) !== null) {
-      const code = match[1];
-      if (code && code.trim()) {
-        try {
-          const fn = new Function(code);
-          fn();
-        } catch (err) {
-          // Ad script executed or handled
-        }
+    if (!config.customHtml || !containerRef.current) return;
+    
+    const container = containerRef.current;
+    container.innerHTML = config.customHtml;
+
+    // Re-create script elements so the browser executes inline and external scripts
+    const scripts = container.querySelectorAll('script');
+    scripts.forEach((oldScript) => {
+      const newScript = document.createElement('script');
+      Array.from(oldScript.attributes).forEach((attr) => {
+        newScript.setAttribute(attr.name, attr.value);
+      });
+      if (oldScript.innerHTML) {
+        newScript.innerHTML = oldScript.innerHTML;
       }
-    }
+      oldScript.parentNode?.replaceChild(newScript, oldScript);
+    });
   }, [config.customHtml]);
 
   // 1. If custom HTML code is supplied for this specific placement
@@ -97,7 +100,6 @@ export default function AdProviderAdapter({ placementId, config }: AdProviderAda
       <div
         ref={containerRef}
         className="w-full flex justify-center items-center overflow-hidden"
-        dangerouslySetInnerHTML={{ __html: config.customHtml }}
       />
     );
   }
