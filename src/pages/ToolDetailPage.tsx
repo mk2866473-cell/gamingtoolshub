@@ -6,13 +6,20 @@
 import React, { useState, useMemo } from 'react';
 import { 
   Star, Users, Clock, ArrowRight, BookOpen, Lightbulb, 
-  HelpCircle, ChevronDown, ChevronUp, Share2, Check, Cpu, Binary
+  HelpCircle, ChevronDown, ChevronUp, Share2, Check, Cpu, Binary,
+  Calculator, CheckCircle2, Compass, Layers, ExternalLink, Zap
 } from 'lucide-react';
 import { ToolItem, getGameById, getCategoryById, TOOLS, getGamePath } from '../data/gamesAndTools';
 import Breadcrumbs from '../components/Breadcrumbs';
 import SEOHead from '../components/SEOHead';
 import ToolCard from '../components/ToolCard';
 import AdLayout from '../components/ads/AdLayout';
+import { 
+  getToolWorkedExamples, 
+  getToolDeepDive, 
+  getEnhancedToolFaqs, 
+  getEnhancedToolSeoTitle 
+} from '../utils/toolSeoContent';
 
 // Tools components
 import MinecraftCircleGenerator from '../components/tools/MinecraftCircleGenerator';
@@ -239,6 +246,17 @@ export default function ToolDetailPage({ tool, onNavigate }: ToolDetailPageProps
     return [...specific, ...sameGame, ...sameCategory].slice(0, 6);
   }, [tool]);
 
+  // Sibling tools in the same game for the Game Hub linking module
+  const gameTools = useMemo(() => {
+    return TOOLS.filter(t => t.gameId === tool.gameId && t.id !== tool.id).slice(0, 6);
+  }, [tool.gameId, tool.id]);
+
+  // Enhanced SEO Content: Worked Examples, Mechanics Deep-Dive & Verified FAQs
+  const workedExamples = useMemo(() => getToolWorkedExamples(tool), [tool]);
+  const deepDive = useMemo(() => getToolDeepDive(tool), [tool]);
+  const enhancedFaqs = useMemo(() => getEnhancedToolFaqs(tool), [tool]);
+  const enhancedTitle = useMemo(() => getEnhancedToolSeoTitle(tool), [tool]);
+
   const handleShare = () => {
     if (navigator.clipboard) {
       navigator.clipboard.writeText(window.location.href);
@@ -250,7 +268,7 @@ export default function ToolDetailPage({ tool, onNavigate }: ToolDetailPageProps
   return (
     <>
       <SEOHead
-        title={tool.seoTitle}
+        title={enhancedTitle}
         description={tool.metaDescription}
         canonicalPath={tool.canonicalPath}
         tool={tool}
@@ -394,20 +412,145 @@ export default function ToolDetailPage({ tool, onNavigate }: ToolDetailPageProps
               )}
             </section>
 
+            {/* 3 to 5 Worked Real-World Examples & Scenarios */}
+            {workedExamples && workedExamples.length > 0 && (
+              <section className="bg-[#0e1422] border border-slate-800 rounded-2xl p-6 sm:p-8 space-y-6">
+                <div className="flex items-center justify-between pb-3 border-b border-slate-800">
+                  <div className="flex items-center gap-2.5">
+                    <Calculator className="w-5 h-5 text-emerald-400" />
+                    <h2 className="text-lg sm:text-xl font-bold text-white">
+                      Worked Examples & Real-World Scenarios ({workedExamples.length})
+                    </h2>
+                  </div>
+                  <span className="text-[11px] font-mono text-emerald-400 bg-emerald-500/10 border border-emerald-500/20 px-2.5 py-0.5 rounded-full hidden sm:inline-block">
+                    Verified Calculations
+                  </span>
+                </div>
+
+                <div className="space-y-5">
+                  {workedExamples.map((ex, idx) => (
+                    <div
+                      key={idx}
+                      className="bg-[#090d16] border border-slate-800/90 rounded-xl p-5 space-y-3.5 hover:border-slate-700 transition-colors"
+                    >
+                      <div className="flex items-start justify-between gap-3">
+                        <h3 className="text-sm font-bold text-slate-100 flex items-center gap-2">
+                          <span className="w-5 h-5 rounded-md bg-emerald-500/10 border border-emerald-500/30 text-emerald-400 text-xs flex items-center justify-center font-mono">
+                            {idx + 1}
+                          </span>
+                          {ex.title}
+                        </h3>
+                      </div>
+
+                      <p className="text-xs text-slate-400 leading-relaxed">
+                        <strong className="text-slate-300">Scenario: </strong>
+                        {ex.scenario}
+                      </p>
+
+                      {/* Input parameters */}
+                      <div className="bg-[#0c121e] border border-slate-800/80 rounded-lg p-3">
+                        <span className="text-[10px] font-mono uppercase tracking-wider text-slate-500 block mb-1.5">
+                          Input Parameters
+                        </span>
+                        <div className="flex flex-wrap gap-2">
+                          {Object.entries(ex.inputValues).map(([k, v]) => (
+                            <span
+                              key={k}
+                              className="text-xs font-mono bg-slate-900/90 border border-slate-700/80 px-2.5 py-1 rounded text-slate-300"
+                            >
+                              <span className="text-slate-500">{k}:</span> <strong className="text-white">{v}</strong>
+                            </span>
+                          ))}
+                        </div>
+                      </div>
+
+                      {/* Step-by-Step Calculation */}
+                      <div className="text-xs font-mono text-cyan-300/90 bg-cyan-950/20 border border-cyan-800/30 rounded-lg p-3">
+                        <span className="text-[10px] text-cyan-400 uppercase tracking-wider block mb-1 font-sans font-semibold">
+                          Step-by-Step Calculation:
+                        </span>
+                        <code>{ex.calculation}</code>
+                      </div>
+
+                      {/* Practical Result & Takeaway */}
+                      <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 pt-1">
+                        <div className="bg-emerald-950/20 border border-emerald-500/30 rounded-lg p-3">
+                          <span className="text-[10px] uppercase font-bold text-emerald-400 tracking-wider block mb-0.5">
+                            In-Game Result
+                          </span>
+                          <span className="text-xs text-slate-200 font-semibold">
+                            {ex.result}
+                          </span>
+                        </div>
+
+                        <div className="bg-amber-950/20 border border-amber-500/30 rounded-lg p-3">
+                          <span className="text-[10px] uppercase font-bold text-amber-400 tracking-wider block mb-0.5">
+                            Pro Strategy
+                          </span>
+                          <span className="text-xs text-slate-300">
+                            {ex.takeaway}
+                          </span>
+                        </div>
+                      </div>
+                    </div>
+                  ))}
+                </div>
+              </section>
+            )}
+
+            {/* In-Depth Engine Mechanics & Technical Guide */}
+            {deepDive && (
+              <section className="bg-[#0e1422] border border-slate-800 rounded-2xl p-6 sm:p-8 space-y-5">
+                <div className="flex items-center gap-2.5 pb-3 border-b border-slate-800">
+                  <Cpu className="w-5 h-5 text-indigo-400" />
+                  <h2 className="text-lg sm:text-xl font-bold text-white">
+                    {deepDive.title}
+                  </h2>
+                </div>
+
+                <div className="bg-indigo-950/20 border border-indigo-500/30 rounded-xl p-4 text-xs sm:text-sm text-indigo-200 leading-relaxed font-medium">
+                  {deepDive.summary}
+                </div>
+
+                <div className="space-y-3.5 text-xs sm:text-sm text-slate-300/90 leading-relaxed">
+                  {deepDive.paragraphs.map((p, idx) => (
+                    <p key={idx}>{p}</p>
+                  ))}
+                </div>
+
+                <div className="pt-2">
+                  <h3 className="text-xs font-bold uppercase tracking-wider text-slate-400 mb-3">
+                    Technical Architecture Highlights
+                  </h3>
+                  <div className="grid grid-cols-1 gap-2.5">
+                    {deepDive.keyPoints.map((pt, idx) => (
+                      <div
+                        key={idx}
+                        className="bg-[#090d16] border border-slate-800 rounded-lg p-3 flex items-start gap-2.5 text-xs text-slate-300"
+                      >
+                        <CheckCircle2 className="w-4 h-4 text-emerald-400 mt-0.5 flex-shrink-0" />
+                        <span>{pt}</span>
+                      </div>
+                    ))}
+                  </div>
+                </div>
+              </section>
+            )}
+
             {/* Pro Gaming Tips */}
             {tool.proTips && tool.proTips.length > 0 && (
               <section className="bg-[#0e1422] border border-slate-800 rounded-2xl p-6 sm:p-8 space-y-4">
                 <div className="flex items-center gap-2.5 pb-3 border-b border-slate-800">
                   <Lightbulb className="w-5 h-5 text-amber-400" />
                   <h2 className="text-lg sm:text-xl font-bold text-white">
-                    Pro Tips & Best Practices
+                    Pro Tips & Optimization Strategies
                   </h2>
                 </div>
 
                 <ul className="space-y-2.5">
                   {tool.proTips.map((tip, idx) => (
                     <li key={idx} className="flex items-start gap-2.5 text-xs text-slate-300">
-                      <span className="text-amber-400 mt-0.5">•</span>
+                      <span className="text-amber-400 mt-0.5 font-bold">•</span>
                       <span>{tip}</span>
                     </li>
                   ))}
@@ -415,18 +558,23 @@ export default function ToolDetailPage({ tool, onNavigate }: ToolDetailPageProps
               </section>
             )}
 
-            {/* Frequently Asked Questions Accordion */}
-            {tool.faqs && tool.faqs.length > 0 && (
+            {/* Enhanced Frequently Asked Questions Accordion */}
+            {enhancedFaqs && enhancedFaqs.length > 0 && (
               <section className="bg-[#0e1422] border border-slate-800 rounded-2xl p-6 sm:p-8 space-y-4">
-                <div className="flex items-center gap-2.5 pb-3 border-b border-slate-800">
-                  <HelpCircle className="w-5 h-5 text-cyan-400" />
-                  <h2 className="text-lg sm:text-xl font-bold text-white">
-                    Frequently Asked Questions ({tool.faqs.length})
-                  </h2>
+                <div className="flex items-center justify-between pb-3 border-b border-slate-800">
+                  <div className="flex items-center gap-2.5">
+                    <HelpCircle className="w-5 h-5 text-cyan-400" />
+                    <h2 className="text-lg sm:text-xl font-bold text-white">
+                      Frequently Asked Questions ({enhancedFaqs.length})
+                    </h2>
+                  </div>
+                  <span className="text-[11px] font-mono text-cyan-400 bg-cyan-500/10 border border-cyan-500/20 px-2 py-0.5 rounded">
+                    Updated
+                  </span>
                 </div>
 
                 <div className="space-y-3">
-                  {tool.faqs.map((faq, idx) => {
+                  {enhancedFaqs.map((faq, idx) => {
                     const isOpen = openFaqIndex === idx;
                     return (
                       <div
@@ -435,13 +583,13 @@ export default function ToolDetailPage({ tool, onNavigate }: ToolDetailPageProps
                       >
                         <button
                           onClick={() => setOpenFaqIndex(isOpen ? null : idx)}
-                          className="w-full p-4 text-left flex items-center justify-between text-xs font-semibold text-slate-200 hover:text-white"
+                          className="w-full p-4 text-left flex items-center justify-between text-xs sm:text-sm font-semibold text-slate-200 hover:text-white"
                         >
                           <span>{faq.question}</span>
                           {isOpen ? <ChevronUp className="w-4 h-4 text-cyan-400" /> : <ChevronDown className="w-4 h-4 text-slate-500" />}
                         </button>
                         {isOpen && (
-                          <div className="px-4 pb-4 pt-1 text-xs text-slate-400 leading-relaxed border-t border-slate-800/80">
+                          <div className="px-4 pb-4 pt-1 text-xs sm:text-sm text-slate-400 leading-relaxed border-t border-slate-800/80">
                             {faq.answer}
                           </div>
                         )}
@@ -449,6 +597,55 @@ export default function ToolDetailPage({ tool, onNavigate }: ToolDetailPageProps
                     );
                   })}
                 </div>
+              </section>
+            )}
+
+            {/* Dedicated Game Hub & Ecosystem Linking Module */}
+            {game && (
+              <section className="bg-gradient-to-r from-[#0d1627] to-[#0a101d] border border-slate-800 rounded-2xl p-6 sm:p-8 space-y-5">
+                <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+                  <div>
+                    <span className="text-[10px] font-mono uppercase tracking-widest text-emerald-400 block mb-1">
+                      Official Game Knowledge Hub
+                    </span>
+                    <h2 className="text-lg sm:text-xl font-bold text-white flex items-center gap-2">
+                      <Compass className="w-5 h-5 text-emerald-400" />
+                      More {game.name} Calculators & Tools
+                    </h2>
+                    <p className="text-xs text-slate-400 mt-1 max-w-xl">
+                      Access the full suite of {game.name} utilities, builders, conversion charts, and calculators in our dedicated game center.
+                    </p>
+                  </div>
+
+                  <button
+                    onClick={() => onNavigate(gamePath)}
+                    className="px-4 py-2 bg-emerald-500 hover:bg-emerald-400 text-black font-semibold text-xs rounded-xl flex items-center gap-1.5 transition-all shadow-lg shadow-emerald-500/20 self-start sm:self-auto flex-shrink-0"
+                  >
+                    <span>Visit {game.name} Hub</span>
+                    <ArrowRight className="w-3.5 h-3.5" />
+                  </button>
+                </div>
+
+                {/* Sibling tools quick links */}
+                {gameTools.length > 0 && (
+                  <div className="pt-3 border-t border-slate-800/80">
+                    <span className="text-[11px] text-slate-400 block mb-2 font-medium">
+                      Popular {game.name} utilities:
+                    </span>
+                    <div className="flex flex-wrap gap-2">
+                      {gameTools.map(t => (
+                        <button
+                          key={t.id}
+                          onClick={() => onNavigate(`/tools/${t.slug}`)}
+                          className="px-2.5 py-1 text-xs rounded-lg bg-slate-900/90 hover:bg-slate-800 border border-slate-800 hover:border-emerald-500/40 text-slate-300 hover:text-white transition-all flex items-center gap-1.5"
+                        >
+                          <span className="w-1.5 h-1.5 rounded-full bg-emerald-400" />
+                          <span>{t.name}</span>
+                        </button>
+                      ))}
+                    </div>
+                  </div>
+                )}
               </section>
             )}
           </div>

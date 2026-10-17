@@ -99,7 +99,7 @@ export default function AdProviderAdapter({ placementId, config }: AdProviderAda
     return (
       <div
         ref={containerRef}
-        className="w-full flex justify-center items-center overflow-hidden"
+        className={`w-full flex justify-center items-center overflow-hidden ${config.minHeight || ''}`}
       />
     );
   }
