@@ -21,13 +21,19 @@ export default function Breadcrumbs({ items, onNavigate }: BreadcrumbsProps) {
     <nav aria-label="Breadcrumb" className="mb-4">
       <ol className="flex items-center flex-wrap gap-1.5 text-xs text-zinc-400">
         <li>
-          <button
-            onClick={() => onNavigate('/')}
+          <a
+            href="/"
+            onClick={(e) => {
+              if (!e.ctrlKey && !e.metaKey && !e.shiftKey && e.button === 0) {
+                e.preventDefault();
+                onNavigate('/');
+              }
+            }}
             className="flex items-center gap-1 hover:text-emerald-400 transition-colors py-1"
           >
             <Home className="w-3.5 h-3.5 text-zinc-500" />
             <span>Home</span>
-          </button>
+          </a>
         </li>
 
         {items.map((item, idx) => {
@@ -43,12 +49,18 @@ export default function Breadcrumbs({ items, onNavigate }: BreadcrumbsProps) {
                     {item.name}
                   </span>
                 ) : (
-                  <button
-                    onClick={() => onNavigate(item.path)}
-                    className="hover:text-emerald-400 transition-colors py-1 truncate max-w-[150px] sm:max-w-none"
+                  <a
+                    href={item.path}
+                    onClick={(e) => {
+                      if (!e.ctrlKey && !e.metaKey && !e.shiftKey && e.button === 0) {
+                        e.preventDefault();
+                        onNavigate(item.path);
+                      }
+                    }}
+                    className="hover:text-emerald-400 transition-colors py-1 truncate max-w-[150px] sm:max-w-none inline-block"
                   >
                     {item.name}
-                  </button>
+                  </a>
                 )}
               </li>
             </React.Fragment>

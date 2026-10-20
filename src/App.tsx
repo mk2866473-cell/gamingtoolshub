@@ -29,13 +29,47 @@ import { getToolBySlug } from './data/gamesAndTools';
 import AdLayout from './components/ads/AdLayout';
 
 export default function App() {
-  // Parse current route from window.location (hash or pathname)
+  // Parse current route from window.location (clean HTML5 pathname, GitHub Pages SPA redirect, or legacy hash)
   const getInitialPath = (): string => {
-    if (window.location.hash && window.location.hash.startsWith('#')) {
-      return window.location.hash.slice(1) || '/';
+    // 1. Handle GitHub Pages 404 SPA redirect stored in sessionStorage
+    if (typeof window !== 'undefined' && window.sessionStorage?.redirect) {
+      const redirectUrl = window.sessionStorage.redirect;
+      delete window.sessionStorage.redirect;
+      try {
+        const url = new URL(redirectUrl);
+        const redirectPath = url.pathname + url.search;
+        window.history.replaceState(null, '', redirectPath);
+        return redirectPath || '/';
+      } catch {
+        // ignore and fallback
+      }
     }
-    const path = window.location.pathname;
+
+    // 2. Handle GitHub Pages query redirect (e.g. ?p=/tools/slug or ?/tools/slug)
     const search = window.location.search;
+    if (search && search.startsWith('?/')) {
+      const decoded = decodeURIComponent(search.slice(1).replace(/~and~/g, '&'));
+      window.history.replaceState(null, '', decoded);
+      return decoded || '/';
+    }
+    const searchParams = new URLSearchParams(search);
+    if (searchParams.has('p')) {
+      const p = searchParams.get('p') || '/';
+      window.history.replaceState(null, '', p);
+      return p;
+    }
+
+    // 3. Backward compatibility: if user or crawler hits a legacy hash URL (#/tools/slug), upgrade to clean URL
+    if (window.location.hash && window.location.hash.startsWith('#')) {
+      const hashPath = window.location.hash.replace(/^#\/?/, '/');
+      if (hashPath && hashPath !== '/') {
+        window.history.replaceState(null, '', hashPath);
+        return hashPath;
+      }
+    }
+
+    // 4. Standard clean URL pathname + search query
+    const path = window.location.pathname;
     return `${path}${search}` || '/';
   };
 
@@ -68,10 +102,13 @@ export default function App() {
     }
   }, [currentRoute]);
 
-  // Programmatic navigate function
+  // Programmatic navigate function using HTML5 clean URLs (No hash!)
   const navigate = (path: string) => {
-    window.location.hash = path;
-    setCurrentRoute(path);
+    const cleanPath = path.startsWith('/') ? path : `/${path}`;
+    if (window.location.pathname + window.location.search !== cleanPath) {
+      window.history.pushState(null, '', cleanPath);
+    }
+    setCurrentRoute(cleanPath);
     window.scrollTo(0, 0);
   };
 

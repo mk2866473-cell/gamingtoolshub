@@ -5,7 +5,7 @@
   "type": "module",
   "scripts": {
     "dev": "vite --port=3000 --host=0.0.0.0",
-    "build": "npx tsx scripts/generate-sitemap.ts && vite build && cp dist/index.html dist/404.html && rm -rf dist_files docs && mkdir -p dist_files docs && cp -r dist/* dist_files/ && cp -r dist/* docs/",
+    "build": "npx tsx scripts/generate-favicons.ts && npx tsx scripts/generate-sitemap.ts && vite build && npx tsx scripts/prerender.ts && rm -rf dist_files docs && mkdir -p dist_files docs && cp -r dist/* dist_files/ && cp -r dist/* docs/",
     "preview": "vite preview",
     "clean": "rm -rf dist server.js",
     "lint": "tsc --noEmit"
@@ -29,6 +29,7 @@
     "@types/react-dom": "^19.3.0",
     "autoprefixer": "^10.4.21",
     "esbuild": "^0.28.0",
+    "sharp": "^0.35.5",
     "tailwindcss": "^4.3.3",
     "tsx": "^4.21.0",
     "typescript": "^7.0.2"

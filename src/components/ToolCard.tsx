@@ -260,9 +260,15 @@ export default function ToolCard({ tool, onSelectTool }: ToolCardProps) {
   };
 
   return (
-    <div
-      onClick={() => onSelectTool(tool.slug)}
-      className="group relative bg-[#0e1422] hover:bg-[#12192a] border border-slate-800/90 hover:border-slate-700 hover:border-emerald-500/30 rounded-xl p-5 transition-all duration-150 cursor-pointer flex flex-col justify-between h-full min-h-[200px] hover:-translate-y-0.5 shadow-sm hover:shadow-lg hover:shadow-black/40"
+    <a
+      href={`/tools/${tool.slug}`}
+      onClick={(e) => {
+        if (!e.ctrlKey && !e.metaKey && !e.shiftKey && e.button === 0) {
+          e.preventDefault();
+          onSelectTool(tool.slug);
+        }
+      }}
+      className="group relative bg-[#0e1422] hover:bg-[#12192a] border border-slate-800/90 hover:border-slate-700 hover:border-emerald-500/30 rounded-xl p-5 transition-all duration-150 cursor-pointer flex flex-col justify-between h-full min-h-[200px] hover:-translate-y-0.5 shadow-sm hover:shadow-lg hover:shadow-black/40 block text-left no-underline"
     >
       <div>
         {/* 1. Small Game / Category Label & 2. Optional Status Badge */}
@@ -309,6 +315,6 @@ export default function ToolCard({ tool, onSelectTool }: ToolCardProps) {
           <ArrowRight className="w-3.5 h-3.5 group-hover:translate-x-0.5 transition-transform" />
         </span>
       </div>
-    </div>
+    </a>
   );
 }

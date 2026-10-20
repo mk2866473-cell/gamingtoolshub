@@ -15,7 +15,8 @@ interface AdProviderAdapterProps {
  * AdProviderAdapter
  * 
  * Manages the actual injection and rendering for different ad providers:
- * - Monetag (Onclick, In-Page Push, Banners, Native)
+ * - Adsterra / highrevenueformat (Sandboxed iframe to allow document.write & isolate window.atOptions)
+ * - Monetag (In-Page Push, Banners, Native)
  * - Ezoic (Placeholder divs & scripts)
  * - Mediavine (Mediavine ad markup)
  * - Custom HTML / Network scripts
@@ -27,6 +28,7 @@ interface AdProviderAdapterProps {
  */
 export default function AdProviderAdapter({ placementId, config }: AdProviderAdapterProps) {
   const containerRef = useRef<HTMLDivElement>(null);
+  const iframeRef = useRef<HTMLIFrameElement>(null);
 
   // Dynamic script loader for configured ad network scripts
   useEffect(() => {
@@ -73,34 +75,72 @@ export default function AdProviderAdapter({ placementId, config }: AdProviderAda
     }
   }, []);
 
-  // Safely execute embedded and external ad scripts when customHtml is provided
+  // Safely execute embedded ad scripts via an isolated iframe.
+  // This resolves document.write() restrictions in modern SPAs and prevents window.atOptions collisions
   useEffect(() => {
-    if (!config.customHtml || !containerRef.current) return;
-    
-    const container = containerRef.current;
-    container.innerHTML = config.customHtml;
+    if (!config.customHtml || !iframeRef.current) return;
+    const iframe = iframeRef.current;
 
-    // Re-create script elements so the browser executes inline and external scripts
-    const scripts = container.querySelectorAll('script');
-    scripts.forEach((oldScript) => {
-      const newScript = document.createElement('script');
-      Array.from(oldScript.attributes).forEach((attr) => {
-        newScript.setAttribute(attr.name, attr.value);
-      });
-      if (oldScript.innerHTML) {
-        newScript.innerHTML = oldScript.innerHTML;
+    try {
+      const doc = iframe.contentDocument || iframe.contentWindow?.document;
+      if (doc) {
+        doc.open();
+        doc.write(`<!DOCTYPE html>
+<html>
+  <head>
+    <base target="_blank">
+    <meta charset="utf-8">
+    <style>
+      * { box-sizing: border-box; }
+      html, body {
+        margin: 0;
+        padding: 0;
+        width: 100%;
+        height: 100%;
+        overflow: hidden;
+        background: transparent;
+        display: flex;
+        align-items: center;
+        justify-content: center;
       }
-      oldScript.parentNode?.replaceChild(newScript, oldScript);
-    });
+    </style>
+  </head>
+  <body>
+    ${config.customHtml}
+  </body>
+</html>`);
+        doc.close();
+      }
+    } catch (e) {
+      console.warn('Ad iframe write warning:', e);
+    }
   }, [config.customHtml]);
 
   // 1. If custom HTML code is supplied for this specific placement
   if (config.customHtml) {
+    const widthMatch = config.customHtml.match(/'width'\s*:\s*(\d+)/i) || config.customHtml.match(/width=["']?(\d+)/i);
+    const heightMatch = config.customHtml.match(/'height'\s*:\s*(\d+)/i) || config.customHtml.match(/height=["']?(\d+)/i);
+    const targetWidth = widthMatch ? parseInt(widthMatch[1], 10) : (placementId === 'desktop-sidebar' ? 300 : 728);
+    const targetHeight = heightMatch ? parseInt(heightMatch[1], 10) : (placementId === 'desktop-sidebar' ? 250 : 90);
+
     return (
-      <div
-        ref={containerRef}
-        className={`w-full flex justify-center items-center overflow-hidden ${config.minHeight || ''}`}
-      />
+      <div className={`w-full flex justify-center items-center overflow-hidden ${config.minHeight || ''}`}>
+        <iframe
+          ref={iframeRef}
+          title={`Ad-${placementId}`}
+          width={targetWidth}
+          height={targetHeight}
+          style={{
+            border: 'none',
+            overflow: 'hidden',
+            width: `${targetWidth}px`,
+            maxWidth: '100%',
+            height: `${targetHeight}px`,
+            display: 'block'
+          }}
+          scrolling="no"
+        />
+      </div>
     );
   }
 
