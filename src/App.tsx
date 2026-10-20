@@ -114,7 +114,8 @@ export default function App() {
 
   // Route resolver
   const renderCurrentPage = () => {
-    const cleanRoute = currentRoute.split('?')[0];
+    const rawPath = currentRoute.split('?')[0];
+    const cleanRoute = (rawPath === '/' ? '/' : rawPath.replace(/\/+$/, '')) || '/';
     const queryString = currentRoute.includes('?') ? currentRoute.split('?')[1] : '';
     const queryParams = new URLSearchParams(queryString);
 
