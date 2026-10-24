@@ -1195,7 +1195,7 @@ function generateHomePageHtml(): string {
 renderPageTemplate(
   '/',
   'GamingToolsHub - Precision Gaming Calculators, Generators & Utilities',
-  'High-performance gaming calculators, circle generators, nether portal calculators, XP planners, coordinate converters, team balancers, and utilities with seamless desktop and mobile interface.',
+  'Fast gaming calculators and blueprint generators for Minecraft, Roblox, Fortnite, Pokémon GO, and Palworld. Instant math, zero server lag, and 100% free.',
   generateHomePageHtml()
 );
 

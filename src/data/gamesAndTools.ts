@@ -337,7 +337,7 @@ export const TOOLS: ToolItem[] = [
     featured: true,
     tags: ['minecraft', 'sphere', '3d', 'voxel', 'layer viewer', 'blueprint', 'mega build'],
     seoTitle: 'Minecraft Sphere Generator – 3D Voxel Sphere Layer-by-Layer Planner',
-    metaDescription: 'Interactive 3D Minecraft Sphere Generator. View layer-by-layer voxel slices, toggle hollow/filled modes, get exact block counts, and build spheres easily in survival.',
+    metaDescription: '3D Minecraft Sphere Generator. View layer-by-layer voxel slices, toggle hollow/filled modes, get exact block counts, and build spheres easily in survival.',
     h1: 'Minecraft 3D Sphere Generator & Layer-by-Layer Blueprint',
     canonicalPath: '/tools/minecraft-sphere-generator',
     howToGuide: {
@@ -603,7 +603,7 @@ export const TOOLS: ToolItem[] = [
     featured: true,
     tags: ['minecraft', 'enchanting', 'anvil', 'prior work penalty', 'god sword', 'god armor', 'mending', 'efficiency'],
     seoTitle: 'Minecraft Enchantment Calculator – Optimal Anvil Combining Order',
-    metaDescription: 'Find the lowest XP cost order to combine enchanted books and tools in an anvil. Avoid the "Too Expensive!" anvil limit with optimal binary tree merging.',
+    metaDescription: 'Find the lowest XP cost order to combine enchanted books and tools in an anvil. Avoid the Too Expensive limit with optimal binary tree merging.',
     h1: 'Minecraft Enchantment Combiner & Anvil Optimizer',
     canonicalPath: '/tools/minecraft-enchantment-calculator',
     howToGuide: {
